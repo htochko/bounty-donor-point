@@ -1,0 +1,40 @@
+# .github/workflows/sync-bounties.yml
+name: Sync & Merge Bounties
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Run automatically every night at midnight UTC
+  workflow_dispatch:     # Allow manual trigger from the GitHub Actions tab
+
+permissions:
+  contents: write        # Required to commit and push merged-bounties.json back to repository
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run TypeScript Bounty Merger Script
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ES_ENDPOINT: ${{ secrets.ES_ENDPOINT }}
+          ES_API_KEY: ${{ secrets.ES_API_KEY }}
+        run: npx ts-node scripts/merge-bounties.ts
+
+      - name: Commit and Push Merged Index
+        run: |
+          git config --global user.name 'Donor Point Bot'
+          git config --global user.email 'bot@donor-point.local'
+          git add public/merged-bounties.json
+          git commit -m "chore: auto-sync merged bounties for advent season [skip ci]" || exit 0
+          git push
