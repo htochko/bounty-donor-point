@@ -45,7 +45,7 @@ const columnDefs = [
   },
   {
     field: "previews",
-    headerName: "Map Assets",
+    headerName: "Moodboard",
     flex: 2,
     cellRenderer: (params: any) => {
       const previews: string[] = params.value || [];
@@ -108,6 +108,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Modal Controls
   const modal = document.getElementById('requestModal');
+  const submitModal = document.getElementById('submitModal');
+  const closeSubmitModalBtn = document.getElementById('closeSubmitModalBtn');
   const openModalBtn = document.getElementById('openRequestModalBtn');
   const closeModalBtn = document.getElementById('closeModalBtn');
   const submitBtn = document.getElementById('submitBountyBtn');
@@ -121,6 +123,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     modal?.classList.add('hidden');
   });
 
+  closeSubmitModalBtn?.addEventListener('click', () => {
+    submitModal?.classList.add('hidden');
+  });
+
+/**
+ * Clears all row selections in AG Grid, resets selected handles, and hides the sticky action bar.
+ */
+const clearSelectionAndHideSticky = (): void => {
+  if (gridApi) {
+    gridApi.deselectAll(); // Снимает выделение со всех строк в AG Grid
+  }
+  selectedHandles = [];
+  
+  const stickyBar = document.getElementById('stickyBar');
+  if (stickyBar) {
+    stickyBar.classList.add('hidden');
+  }
+};
+
   submitBtn?.addEventListener('click', () => {
     const budgetInput = document.getElementById('bountyBudget') as HTMLInputElement;
     const taskInput = document.getElementById('bountyTask') as HTMLTextAreaElement;
@@ -131,9 +152,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       taskDescription: taskInput?.value || ''
     };
 
-    console.log("Submitting Bounty Request Payload:", payload);
-    alert(`Bounty request sent to ${payload.selectedHandles.length} creators with budget $${payload.budget}!`);
-
+    //console.log("Submitting Bounty Request Payload:", payload);
+    //alert(`Bounty request sent to ${payload.selectedHandles.length} creators with budget $${payload.budget}!`);
+    clearSelectionAndHideSticky();
+    submitModal?.classList.remove('hidden');
+    
     modal?.classList.add('hidden');
   });
 
