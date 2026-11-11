@@ -1,0 +1,152 @@
+:root {
+  --main-bg-color: #00374A;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--main-bg-color);
+  color: #f8fafc;
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 2rem;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto 2rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1e293b;
+  padding-bottom: 1.5rem;
+}
+
+.title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.filters-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.filter-tag {
+  background: #e2e8f0;
+  color: #0f172a;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.filter-tag:hover {
+  opacity: 0.9;
+}
+
+.filter-tag.highlight {
+  background: #fdba74;
+  color: #7c2d12;
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.date-badge {
+  background: #1e293b;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+}
+
+.avatar-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #38bdf8;
+  object-fit: cover;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#challengerGrid {
+  height: 650px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+}
+
+/* Cell renderer components styling */
+.cell-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+}
+
+.cell-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #38bdf8;
+}
+
+.cell-author-name {
+  font-weight: 600;
+  color: #f8fafc;
+  font-size: 0.9rem;
+}
+
+.cell-handle {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.cell-tags {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  flex-wrap: wrap;
+}
+
+.tag-item {
+  color: #93c5fd;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.tag-separator {
+  color: #475569;
+}
+
+.cell-previews {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+}
+
+.preview-thumb {
+  width: 44px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid #334155;
+}
