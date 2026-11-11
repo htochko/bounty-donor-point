@@ -30,6 +30,39 @@
     <div id="challengerGrid" class="ag-theme-alpine-dark"></div>
   </main>
 
+  <!-- Sticky Button Bar -->
+  <div id="stickyBar" class="sticky-action-bar hidden">
+    <span id="selectedCountText" style="font-size: 0.9rem; color: #f8fafc;">0 creators selected</span>
+    <button id="openRequestModalBtn" class="btn-primary">Send Bounty Request 🚀</button>
+  </div>
+
+  <!-- Modal Request Form -->
+  <div id="requestModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <h3 class="modal-title">Create Bounty Request</h3>
+      
+      <div class="form-group">
+        <label class="form-label">Recipients (Selected Handles)</label>
+        <div id="handlesContainer" style="min-height: 36px; padding: 0.2rem; background: #1e293b; border-radius: 6px;"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Budget ($ USD)</label>
+        <input type="number" id="bountyBudget" class="form-input" placeholder="e.g. 150" min="1" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Task Description & Requirements</label>
+        <textarea id="bountyTask" class="form-textarea" rows="4" placeholder="Describe the map requirements, dataset parameters, or desired style..."></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button id="closeModalBtn" class="btn-secondary">Cancel</button>
+        <button id="submitBountyBtn" class="btn-primary">Confirm & Send Request</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module" src="./src/index.ts"></script>
 </body>
 </html>

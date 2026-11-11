@@ -7,3 +7,9 @@ export interface ChallengerEntry {
   previews: string[];      // mooboard references
   paypalUrl?: string;      // Support links (Donor Point)
 }
+
+export interface BountyRequestPayload {
+  selectedHandles: string[];
+  budget: number;
+  taskDescription: string;
+}

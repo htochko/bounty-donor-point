@@ -2,17 +2,20 @@ import './style.css';
 import { createGrid, ModuleRegistry, ClientSideRowModelModule } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { ChallengerEntry } from './types';
+import { ChallengerEntry, BountyRequestPayload } from './types';
 
 import { permamentData } from './assets/seed.ts';
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
+let gridApi: GridApi | null = null;
+let selectedHandles: string[] = [];
+
 const columnDefs = [
   {
     field: "authorName",
     headerName: "Challenger & Profile",
-    width: 280,
+    width: 260,
     cellRenderer: (params: any) => {
       const data: ChallengerEntry = params.data;
       if (!data) return '';
@@ -52,25 +55,87 @@ const columnDefs = [
         </div>
       `;
     }
+  },
+  {
+    headerName: "Select",
+    width: 100,
+    checkboxSelection: true,
+    headerCheckboxSelection: true,
+    pinned: 'right'
   }
 ];
 
-const gridOptions = {
-  columnDefs: columnDefs,
-  rowData: [] as ChallengerEntry[],
-  rowHeight: 60,
-  headerHeight: 44,
-  defaultColDef: {
-    sortable: true,
-    resizable: true
+const updateStickyBar = () => {
+  const stickyBar = document.getElementById('stickyBar');
+  const countText = document.getElementById('selectedCountText');
+  if (!stickyBar || !countText || !gridApi) return;
+
+  const selectedRows: ChallengerEntry[] = gridApi.getSelectedRows();
+  selectedHandles = selectedRows.map(row => row.handle);
+
+  if (selectedHandles.length > 0) {
+    countText.innerText = `${selectedHandles.length} creator${selectedHandles.length > 1 ? 's' : ''} selected`;
+    stickyBar.classList.remove('hidden');
+  } else {
+    stickyBar.classList.add('hidden');
   }
+};
+
+const renderModalHandles = () => {
+  const container = document.getElementById('handlesContainer');
+  if (!container) return;
+  container.innerHTML = selectedHandles
+    .map(h => `<span class="selected-handles-badge">@${h}</span>`)
+    .join('');
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
   const gridDiv = document.querySelector('#challengerGrid') as HTMLElement;
   if (!gridDiv) return;
 
-  const gridApi = createGrid(gridDiv, gridOptions);
+  gridApi = createGrid(gridDiv, {
+    columnDefs: columnDefs,
+    rowData: [] as ChallengerEntry[],
+    rowSelection: 'multiple',
+    rowHeight: 60,
+    headerHeight: 44,
+    onSelectionChanged: updateStickyBar,
+    defaultColDef: {
+      sortable: true,
+      resizable: true
+    }
+  });
+
+  // Modal Controls
+  const modal = document.getElementById('requestModal');
+  const openModalBtn = document.getElementById('openRequestModalBtn');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const submitBtn = document.getElementById('submitBountyBtn');
+
+  openModalBtn?.addEventListener('click', () => {
+    renderModalHandles();
+    modal?.classList.remove('hidden');
+  });
+
+  closeModalBtn?.addEventListener('click', () => {
+    modal?.classList.add('hidden');
+  });
+
+  submitBtn?.addEventListener('click', () => {
+    const budgetInput = document.getElementById('bountyBudget') as HTMLInputElement;
+    const taskInput = document.getElementById('bountyTask') as HTMLTextAreaElement;
+
+    const payload: BountyRequestPayload = {
+      selectedHandles: selectedHandles,
+      budget: Number(budgetInput?.value || 0),
+      taskDescription: taskInput?.value || ''
+    };
+
+    console.log("Submitting Bounty Request Payload:", payload);
+    alert(`Bounty request sent to ${payload.selectedHandles.length} creators with budget $${payload.budget}!`);
+
+    modal?.classList.add('hidden');
+  });
 
   try {
     const mockData: ChallengerEntry[] = [
