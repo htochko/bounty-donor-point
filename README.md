@@ -9,7 +9,7 @@
 ---
 
 ## 🚀 Live Demo & Presentation
-* **Live Application:** [View on GitHub Pages](https://htochko.github.io/bounty-donor-point/) *(Replace with your exact link if needed)*
+* **Live Application:** [View on GitHub Pages](https://htochko.github.io/bounty-donor-point/)
 * **Video Presentation / Storyboard:** [Watch Demo on YouTube / Devpost](#) *(https://youtu.be/duxR8Vddq5o)*
 
 ---
