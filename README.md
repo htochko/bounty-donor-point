@@ -37,7 +37,7 @@ To run the project locally on your machine, follow these steps:
 
 ```bash
 # 1. Clone the repository
-git clone [https://github.com/htochko/bounty-donor-point.git](https://github.com/htochko/bounty-donor-point.git)
+git clone https://github.com/htochko/bounty-donor-point.git
 
 # 2. Navigate to the project directory
 cd bounty-donor-point
